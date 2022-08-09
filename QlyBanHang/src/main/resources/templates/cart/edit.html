@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<form method="post" th:action="@{/edit_cart}" th:object="${item}">
+    <label for="account">New account</label><br>
+    <input id="account" name="number" th:value="${item.number}"/><br>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

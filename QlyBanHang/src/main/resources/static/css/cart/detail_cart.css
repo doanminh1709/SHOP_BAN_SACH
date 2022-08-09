@@ -1,0 +1,28 @@
+.sum_of_discount{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+p{
+    display: inherit;
+}
+.payToMoney{
+    float: right;
+    margin: 20px 100px 0 0;
+    max-width: 100px;
+}
+.payToMoney button{
+    width: 100%;
+    padding: 6px 35px;
+}
+.image{
+    width: 100px;
+    height: 100px;
+}
+.edit input{
+    max-width: 40px;
+    border-radius: 5px;
+}
+element.style {
+    border: solid;
+}

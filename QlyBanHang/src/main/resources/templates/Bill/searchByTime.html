@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Result by time</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 style="text-align: center; padding: 20px">THỐNG KÊ BILL THEO KHOẢNG THỜI GIAN </h1>
+    <form th:action="@{/searchBillByTime}" method="post">
+
+        <div class="form-group mb-3 mt-3">
+            <label for="from">Ngày bắt đầu</label>
+            <input type="date" class="form-control"
+                   aria-describedby="emailHelp"
+                   id="from" name="from"/>
+        </div>
+
+        <div class="form-group mb-3 mt-3">
+            <label for="to">Ngày kết thúc</label>
+            <input type="date" class="form-control"
+                   aria-describedby="emailHelp"
+                   id="to" name="to"/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+</body>
+</html>

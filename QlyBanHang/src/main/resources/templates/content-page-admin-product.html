@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="template-admin.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+<div class="main" layout:fragment="content">
+    <div class="row main-content">
+        <div class="col-md-3 wrapper_main-content">
+            <ul class="menu">
+                <li><a th:href="@{/admin/viewAdminShowCategory}">Manager category</a><i
+                        class="fa-solid fa-angle-right"></i></li>
+                <li><a th:href="@{/admin/viewAdminShowUser}">Manager user</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowBill}">Manager bill</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowCoupon}">Manager coupon</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowProduct}">Manager product</a><i
+                        class="fa-solid fa-angle-right"></i></li>
+            </ul>
+        </div>
+        <div class="col-md-9 wrapper_main-content">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th colspan="2" style="text-align: center">Choose</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="product :  ${showListProduct}">
+                    <tr>
+                        <td th:text="${product.id}"></td>
+                        <td th:text="*{product.name}"></td>
+                        <td th:text="*{product.price}"></td>
+                        <td th:text="*{product.description}"></td>
+                        <td><img th:src="${product.image}" width="60px" height="60px"/></td>
+                        <td style="text-align: center">
+                            <button data-bs-toggle="modal" data-row="${product}" class="btn btn-primary"
+                                    th:attr="data-bs-target=${'#removeModal' + product.id}"><i class="fa fa-times"
+                                                                                               aria-hidden="true">Remove</i>
+                            </button>
+                            <button data-bs-toggle="modal" data-row="${pb}" class="btn btn-primary"
+                                    th:attr="data-bs-target=${'#editModal'+ product.id}"><i class="fa fa-pencil"
+                                                                                            aria-hidden="true">Edit</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <!--                     The Modal -->
+                    <div class="modal" th:attr="id=${'editModal'+ product.id}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header-->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit name product</h4>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body-->
+                                <div class="modal-body">
+                                    <form th:action="@{/admin/editProduct}" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <input
+                                                    type="hidden" name="id" th:value="${product.id}"
+                                                    class="form-control" id="exampleInputEmail1"
+                                                    aria-describedby="emailHelp">
+
+                                            <label for="exampleInputEmail1">Name product</label>
+                                            <input
+                                                    type="type"
+                                                    th:class="form-control" name="name"
+                                                    id="exampleInputEmail1" th:value="${product.name}"
+                                                    aria-describedby="emailHelp">
+
+                                            <label for="exampleInputEmail1">Price product</label>
+                                            <input
+                                                    type="number" name="price"
+                                                    th:class="form-control"
+                                                    id="exampleInputEmail1" th:value="${product.price}"
+                                                    aria-describedby="emailHelp">
+
+
+                                            <label for="exampleInputEmail1">Description product</label>
+                                            <input
+                                                    type="text" name="description"
+                                                    th:class="form-control"
+                                                    id="exampleInputEmail1" th:value="${product.description}"
+                                                    aria-describedby="emailHelp">
+
+                                            <label for="exampleInputEmail1">Image</label>
+                                            <input
+                                                    type="file" name="filename"
+                                                    th:class="form-control"
+                                                    id="exampleInputEmail1"
+                                                    aria-describedby="emailHelp">
+
+                                            <label for="category_id">Category</label>
+                                            <select id="category_id" name="idCategory" style="width: 100%">
+                                                <option>Name category</option>
+                                                <option th:each="item : ${listCategory}" th:value="${item.id}"
+                                                        th:text="${item.name}"></option>
+                                            </select>
+
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal remove -->
+                    <!-- The Modal -->
+                    <div class="modal" th:attr="id=${'removeModal'+product.id}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete name product</h4>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form th:action="@{/admin/deleteProduct}">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Are you sure delete this product?</label>
+                                            <input
+                                                    type="hidden" name="id" th:value="${product.id}"
+                                                    class="form-control"
+                                                    id="exampleInputEmail1"
+                                                    aria-describedby="emailHelp">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <div class="create_category"  style="position:relative ;top:135px; right: -60px;">
+            <div class="col-md-1 button-check">
+                <button type="button"  class="btn btn-success create_new_product"><i aria-hidden="true" data-bs-toggle="modal"
+                                                                 data-bs-target="#myModal">New</i></button>
+            </div>
+
+            <!-- The Modal -->
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header create_product">
+                            <h4 class="modal-title">New</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form th:action="@{/admin/addProduct}" method="post" enctype="multipart/form-data">
+                                <div class="mb-3 mt-3">
+
+                                    <label for="name_product">Name product:</label>
+                                    <input type="text" class="form-control" id="name_product"
+                                           placeholder="Enter name product"
+                                           name="name"/>
+
+                                    <label for="price">Price:</label>
+                                    <input type="number" class="form-control" id="price"
+                                           placeholder="Enter price product"
+                                           name="price"/>
+
+                                    <label for="description">Description:</label>
+                                    <input type="text" class="form-control" id="description"
+                                           placeholder="Enter description product"
+                                           name="description"/>
+
+                                    <label for="image">Image:</label>
+                                    <input type="file" class="form-control" id="image" placeholder="Enter image product"
+                                           name="filename"/>
+
+                                    <label for="categoryId">Category</label>
+                                    <select id="categoryId" name="idCategory" style="width: 100%">
+                                        <option>Name category</option>
+                                        <option th:each="item : ${listCategory}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">New</button>
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page" style="position: relative ; right: 56% ; top: 96px;">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowProduct?p=0'}">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowProduct?p=1'}">1</a></li>
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowProduct?p=2'}">2</a></li>
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowProduct?p=3'}">3</a></li>
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowProduct?p=4'}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

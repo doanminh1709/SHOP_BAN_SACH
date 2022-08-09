@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="template-admin.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main" layout:fragment="content">
+    <div class="row main-content">
+        <div class="col-md-3 wrapper_main-content">
+            <ul class="menu">
+                <li><a th:href="@{/admin/viewAdminShowCategory}">Manager category</a><i
+                        class="fa-solid fa-angle-right"></i></li>
+                <li><a th:href="@{/admin/viewAdminShowUser}">Manager user</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowBill}">Manager bill</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowCoupon}">Manager coupon</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowProduct}">Manager product</a><i
+                        class="fa-solid fa-angle-right"></i></li>
+            </ul>
+        </div>
+        <div class="col-md-9 wrapper_main-content">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>FulLName</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th style="text-align: center">Choose</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="item :  ${showListUser}">
+                    <tr>
+                        <td th:text="${item.id}"></td>
+                        <td th:text="*{item.name}"></td>
+                        <td th:text="*{item.username}"></td>
+                        <td th:text="*{item.email}"></td>
+                        <td style="text-align: center">
+                            <button data-bs-toggle="modal" data-row="${item}" class="btn btn-primary"
+                                    th:attr="data-bs-target=${'#removeModal'+ item.id}"><i class="fa fa-times"
+                                                                                           aria-hidden="true">Remove</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Modal remove -->
+                    <div class="modal" th:attr="id=${'removeModal'+item.id}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete user</h4>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form th:action="@{/admin/deleteUser}">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Are you sure delete this user?</label>
+                                            <input
+                                                    type="hidden" th:value="${item.id}" name="id"
+                                                    class="form-control"
+                                                    id="exampleInputEmail1"
+                                                    aria-describedby="emailHelp">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                </tbody>
+            </table>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowUser?p=0'}">Previous</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{'/admin/viewAdminShowUser?p=1'}">1</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{'/admin/viewAdminShowUser?p=2'}">2</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{'/admin/viewAdminShowUser?p=3'}">3</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{'/admin/viewAdminShowUser?p=4'}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

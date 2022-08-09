@@ -1,0 +1,29 @@
+<!--HEADER CONTENT-->
+<div class="header" th:fragment="header">
+    <div class="content-header">
+        <div class="row">
+            <div class="col-md-3 wrapper_box-header">
+                <a><i class="fa-solid fa-book"></i></a>
+            </div>
+            <div class="col-md-5 wrapper_box-header  wrapper_box-header2">
+                <span><p>The world BookStore</p></span>
+            </div>
+            <div class="col-md-4 wrapper_box-header">
+                <div>
+                    <strong>Hello , Admin</strong>
+                    <a th:href="@{/logout}" th:text="${user}? ${user.name} :'Đăng xuất'">
+                    <i class="fa-solid fa-user"></i></a> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FOOTER CONTENT-->
+<div class="footer" th:fragment="footer">
+    <div class="content-footer">
+        <div class="row">
+            <div class="col-md-4"><i class="fa-brands fa-facebook"></i></div>
+            <div class="col-md-4"><i class="fa-solid fa-envelope"></i></div>
+            <div class="col-md-4"><i class="fa-brands fa-instagram"></i></div>
+        </div>
+    </div>
+</div>

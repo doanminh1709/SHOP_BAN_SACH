@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="template-admin.html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main" layout:fragment="content">
+    <div class="row main-content">
+        <div class="col-md-3 wrapper_main-content">
+            <ul class="menu">
+                <li><a th:href="@{/admin/viewAdminShowCategory}">Manager category</a><i
+                        class="fa-solid fa-angle-right"></i></li>
+                <li><a th:href="@{/admin/viewAdminShowUser}">Manager user</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowBill}">Manager bill</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowCoupon}">Manager coupon</a><i class="fa-solid fa-angle-right"></i>
+                </li>
+                <li><a th:href="@{/admin/viewAdminShowProduct}">Manager product</a><i
+                        class="fa-solid fa-angle-right"></i></li>
+            </ul>
+        </div>
+        <div class="col-md-9 wrapper_main-content">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Coupon code</th>
+                    <th>Discount amount</th>
+                    <th>Expired date</th>
+                    <th colspan="2" style="text-align: center">Other</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="coupon :  ${showListCoupon}">
+                    <tr>
+                        <td th:text="*{coupon.id}"></td>
+                        <td th:text="*{coupon.couponCode}"></td>
+                        <td th:text="*{coupon.discountAmount}"></td>
+                        <td th:text="${#dates.format(coupon.expiredDate,'dd-MM-yyyy')}"></td>
+                        <td style="text-align: center">
+                            <button data-bs-toggle="modal" data-row="${bill}" class="btn btn-primary"
+                                    th:attr="data-bs-target=${'#removeModal'+coupon.id}"><i class="fa fa-times"
+                                                                                            aria-hidden="true">Remove</i>
+                            </button>
+                            <button data-bs-toggle="modal" data-row="${pb}" class="btn btn-primary"
+                                    th:attr="data-bs-target=${'#editModal'+ coupon.id}"><i class="fa fa-pencil"
+                                                                                           aria-hidden="true">Edit</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Modal remove -->
+                    <div class="modal" th:attr="id=${'editModal'+ coupon.id}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header-->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit name category</h4>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body-->
+                                <div class="modal-body">
+                                    <form th:action="@{/admin/editCoupon}" method="post">
+                                        <div class="form-group">
+                                            <input
+                                                    type="hidden" name="id" th:value="${coupon.id}"
+                                                    class="form-control" id="exampleInputEmail1"
+                                                    aria-describedby="emailHelp">
+
+                                            <label for="exampleInputEmail1">Coupon Code</label>
+                                            <input
+                                                    type="text"
+                                                    th:class="form-control" name="couponCode"
+                                                    id="exampleInputEmail1" th:value="${coupon.couponCode}"
+                                                    aria-describedby="emailHelp">
+
+                                            <label for="exampleInputEmail1">Discount amount</label>
+                                            <input
+                                                    type="text"
+                                                    th:class="form-control" name="discountAmount"
+                                                    id="exampleInputEmail1" th:value="${coupon.discountAmount}"
+                                                    aria-describedby="emailHelp">
+
+                                            <label for="exampleInputEmail1">Expired date</label>
+                                            <input
+                                                    type="date"
+                                                    th:class="form-control" name="expiredDate"
+                                                    id="exampleInputEmail1" th:value="${coupon.expiredDate}"
+                                                    aria-describedby="emailHelp">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- The Modal -->
+                    <div class="modal" th:attr="id=${'removeModal'+ coupon.id}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete coupon</h4>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form th:action="@{/admin/deleteCoupon}">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Are you sure delete this coupon?</label>
+                                            <input
+                                                    type="hidden" name="id" th:value="${coupon.id}"
+                                                    class="form-control"
+                                                    id="exampleInputEmail1"
+                                                    aria-describedby="emailHelp">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <div class="create_coupon">
+            <div class="col-md-1 button-check">
+                <button type="button" class="btn btn-success" style="position:relative;top:35px; left:60px;"><i
+                        aria-hidden="true" data-bs-toggle="modal"
+                        data-bs-target="#myModal">New</i></button>
+            </div>
+            <!-- The Modal -->
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add coupon</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form th:action="@{/admin/addCoupon}" method="post">
+                                <div class="mb-3 mt-3">
+                                    <label for="email">Name coupon:</label>
+                                    <input type="text" class="form-control" id="email" placeholder="Enter name category"
+                                           name="couponCode"/>
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="discountAmount">Discount amount:</label>
+                                    <input type="number" class="form-control" id="discountAmount"
+                                           placeholder="Enter discount amount"
+                                           name="discountAmount"/>
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="expiredDate">Expired date:</label>
+                                    <input type="date" class="form-control" id="expiredDate"
+                                           placeholder="Enter expired date"
+                                           name="expiredDate"/>
+                                </div>
+                                <button type="submit" class="btn btn-primary">New</button>
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page" style="position: relative ; right: 56% ; top: 0;">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowCoupon?p=0'}">Previous</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{'/admin/viewAdminShowCoupon?p=1'}">1</a>
+                </li>
+                <li class="page-item"><a class="page-link" th:href="@{'/admin/viewAdminShowCoupon?p=2'}">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" th:href="@{'/admin/viewAdminShowCoupon?p=3'}">3</a>
+                </li>
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{'/admin/viewAdminShowCoupon?p=4'}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

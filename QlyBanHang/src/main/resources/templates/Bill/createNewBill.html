@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new Bill</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <form method="post" th:action="@{/createBill}">
+                <label for="date_create">Date</label><br>
+                <input type="date" name="date" id="date_create"><br>
+                <label for="user_name">User name</label><br>
+                <select name="user_id" id="user_name">
+                    <option>Name customer</option>
+                    <option th:each="item : ${listUser}" th:value="${item.id}" th:text="${item.name}"></option>
+                </select>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</body>
+</html>

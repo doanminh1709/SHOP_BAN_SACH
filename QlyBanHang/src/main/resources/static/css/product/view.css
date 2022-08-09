@@ -1,0 +1,32 @@
+.mainContainer {
+    margin-bottom: 15px;
+    color: red;
+    height: 300px;
+}
+.box-content{
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid gold;
+}
+.image{
+    margin: 10px auto 0;
+    width: 97%;
+    height: 190px;
+}
+.image > img{
+    width: 100%;
+    height: 100%;
+}
+.order_product{
+    display: flex;
+    justify-content: space-around;
+}
+.name_product{
+    display: block;
+}
+.order_product{
+    color: red;
+    text-transform: uppercase;
+    font-weight: 500;
+}
